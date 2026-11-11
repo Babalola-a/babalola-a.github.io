@@ -1,0 +1,90 @@
+/* Shared styles for every page on the site */
+
+body {
+  font-family: 'Comfortaa', Arial, sans-serif;
+  line-height: 1.6;
+  color: #2e1a3a;
+  background-color: #fbf8fd;
+  margin: 0;
+  padding: 0 32px 40px;
+}
+
+.navbar {
+  background-color: #4a235a;
+  margin: 0 -32px 24px;
+  padding: 12px 32px;
+}
+
+.navbar ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+h1 {
+  font-size: 2.4em;
+  color: #5b2c6f;
+}
+
+h2 {
+  font-size: 1.6em;
+  color: #5b2c6f;
+}
+
+h3 {
+  font-size: 1.2em;
+  color: #7d3c98;
+  margin-top: 32px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+a {
+  color: #8e44ad;
+}
+
+#contact {
+  margin-top: 40px;
+  padding: 16px 20px;
+  background-color: #f4ecf7;
+  border-radius: 8px;
+}
+
+#chart svg {
+  width: 100%;
+  max-width: 900px;
+  height: auto;
+}
+
+#chart rect:hover {
+  fill: #c39bd3;
+}
+
+.source {
+  font-size: 0.9em;
+  color: #6c5a78;
+  border-left: 4px solid #8e44ad;
+  padding-left: 12px;
+}
+
+h1, h2, h3, .navbar a {
+  font-family: 'Fredoka', sans-serif;
+  font-weight: 600;
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Visualization Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&family=Fredoka:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="DataVisualizationPage.html">Data Visualization</a></li>
+      <li><a href="index.html#contact">Contact Information</a></li>
+    </ul>
+  </nav>
+
+  <h2>Planets Beyond Our Solar System</h2>
+
+  <h3>Explanation of my topic for the Data Visualization</h3>
+  <p>This visualization is based on exoplanets, which are planets that orbit stars outside of our solar system. Before 1992, scientists had not even been able to confirm that they existed. Today, NASA provides data listing more than 5,700 discovered planets. 
+    I chose this topic for a visualization because the growth in discoveries is easy to see through data. When scientists first began discovering exoplanets, they were only able to find a few. However, as technology developed and new tools became available, they were able to discover many more planets. This makes it interesting to see how the number of discoveries has changed over time.
+    I have always been interested in how the rapid advancement of technology increases our ability to complete certain tasks. Because of this, I wanted to explore how improvements in technology have impacted scientific discoveries. Exoplanets are a good example of this because scientists have been able to find more planets as their tools and methods have improved. I was also interested in
+    seeing which methods have been used most often to discover these planets and how different technologies have contributed to what we know today. Through this visualization, I wanted to make these changes easier to understand and compare.
+  </p>
+  <img src="exoplanet.jpg" alt="Artist's illustration of the TRAPPIST-1 system: a red star with seven planets orbiting it" width="400">
+  <p>ImageCredit: NASA/JPL Caltech </p>
+
+<h3>Key facts</h3>
+<ul>
+  <li>The first confirmed exoplanets were discovered in 1992. The dataset I used includes 5,788 confirmed planets through 2024.</li>
+  <li>Transit is the most common way to discover planets with 4,310 discoveries. Radial velocity is the second most common with 1,094.</li>
+  <li>There was a big increase in discoveries in 2014 (874 planets) and 2016 (1,511 planets) when scientists confirmed large groups of planets found by Kepler.</li>
+  <li>Since the Kepler telescope began making discoveries, scientists have found many more planets each year than before.</li>
+</ul>
+ 
+  <h3>Planets discovered each year</h3>
+  <div id="chart"></div>
+  <p>Each bar shows how many confirmed exoplanets were discovered in that year. Hover over a bar to see the exact number. The two tall bars in 2014 and 2016 line up with the Kepler announcements.</p>
+  <p class="source"><strong>Data source:</strong> Kaggle dataset "NASA's Confirmed Exoplanets: Regular Updated" by jameskychoi, from the NASA Exoplanet Archive (data as of December 2024).</p>
+ 
+ 
+ 
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  <script>
+    d3.csv("confirmed_exoplanents_2024_December.csv").then(raw => {
+      const counts = d3.rollup(raw, v => v.length, d => +d.discovery_year);
+ 
+      const [firstYear, lastYear] = d3.extent(counts.keys());
+      const data = d3.range(firstYear, lastYear + 1)
+        .map(year => ({ year: year, value: counts.get(year) || 0 }));
+ 
+      const width = 700, height = 380;
+      const margin = { top: 20, right: 20, bottom: 55, left: 60 };
+ 
+      const svg = d3.select("#chart").append("svg")
+        .attr("viewBox", `0 0 ${width} ${height}`)
+        .attr("role", "img")
+        .attr("aria-label", "Bar chart of confirmed exoplanets discovered per year from 1992 to 2024. Counts stay low until 2014, then spike in 2014 and 2016.");
+ 
+      const x = d3.scaleBand()
+        .domain(data.map(d => d.year))
+        .range([margin.left, width - margin.right])
+        .padding(0.15);
+ 
+      const y = d3.scaleLinear()
+        .domain([0, d3.max(data, d => d.value)]).nice()
+        .range([height - margin.bottom, margin.top]);
+ 
+      svg.selectAll("rect").data(data).join("rect")
+        .attr("x", d => x(d.year))
+        .attr("y", d => y(d.value))
+        .attr("width", x.bandwidth())
+        .attr("height", d => y(0) - y(d.value))
+        .attr("fill", "#8e44ad")
+        .append("title")
+        .text(d => `${d.year}: ${d.value} planets`);
+ 
+      svg.append("g")
+        .attr("transform", `translate(0,${height - margin.bottom})`)
+        .call(d3.axisBottom(x).tickValues(data.map(d => d.year).filter(yr => yr % 5 === 0)));
+ 
+      svg.append("g")
+        .attr("transform", `translate(${margin.left},0)`)
+        .call(d3.axisLeft(y));
+ 
+      svg.append("text")
+        .attr("x", width / 2).attr("y", height - 10)
+        .attr("text-anchor", "middle").text("Year of discovery");
+ 
+      svg.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -height / 2).attr("y", 16)
+        .attr("text-anchor", "middle").text("Planets discovered");
+    });
+  </script>
+</body>
+</html>
